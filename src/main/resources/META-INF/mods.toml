@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+[[mods]]
+modId="machinesmod"
+version="${file.jarVersion}"
+displayName="Machines Mod"
+logoFile="examplemod.png"
+credits=""
+authors="Nachiten"
+description='''
+            Adds machines to minecraft.
+            '''
+[[dependencies.machinesmod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.machinesmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
