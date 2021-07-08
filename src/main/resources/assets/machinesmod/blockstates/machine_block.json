@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "" : {"model": "machinesmod:block/machine_block"}
+  }
+}

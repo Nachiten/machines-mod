@@ -3,6 +3,7 @@ package nachiten.machines.mod;
 import nachiten.machines.mod.core.init.BlockInit;
 import nachiten.machines.mod.core.init.ItemInit;
 
+import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -28,8 +29,9 @@ public class MachinesMod
     public MachinesMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
+        TileEntityTypesInit.TILE_ENTITY_TYPE.register(bus);
+        ItemInit.ITEMS.register(bus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -39,7 +41,7 @@ public class MachinesMod
     public static void onRegisterItems(final RegistryEvent.Register<Item> event){
         BlockInit.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> event.getRegistry()
                 .register(new BlockItem(block, new Item.Properties()
-                .tab(ItemGroup.TAB_MISC))
+                .group(ItemGroup.MISC))
                 .setRegistryName(Objects.requireNonNull(block.getRegistryName())))
         );
     }

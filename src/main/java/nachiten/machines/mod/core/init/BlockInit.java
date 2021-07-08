@@ -2,6 +2,7 @@ package nachiten.machines.mod.core.init;
 
 import nachiten.machines.mod.MachinesMod;
 
+import nachiten.machines.mod.common.block.MachineBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -17,9 +18,11 @@ public class BlockInit {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MachinesMod.MOD_ID);
 
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block",
-            () -> new Block(AbstractBlock.Properties.of(Material.WOOL, MaterialColor.COLOR_GRAY)
-                    .strength(5f, 6f)
+            () -> new Block(AbstractBlock.Properties.create(Material.WOOL, MaterialColor.GRAY)
+                    .hardnessAndResistance(5f, 6f)
                     .harvestTool(ToolType.PICKAXE)
                     .harvestLevel(2)
                     .sound(SoundType.METAL)));
+
+    public static final RegistryObject<Block> MACHINE_BLOCK = BLOCKS.register("machine_block", MachineBlock::new);
 }
