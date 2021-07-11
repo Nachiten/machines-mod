@@ -11,27 +11,22 @@ import net.minecraft.util.math.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MachineBlockTileEntity extends TileEntity implements ITickableTileEntity {
 
     public MachineBlockTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
     }
 
-    public MachineBlockTileEntity(){
+    public MachineBlockTileEntity() {
         this(TileEntityTypesInit.MACHINE_TILE_ENTITY_TYPE.get());
-
-        //assert this.world != null;
-
-        //if (!this.world.isRemote){
-        //    System.out.println("Hey corri el setup");
-        //}
-
     }
 
     // Tiempo transcurrido
     int ticksPassed = 0;
     // Flag
     boolean primerPasada = true;
+    boolean termineDeRomper = false;
 
     int tamanioBloque = 3;
 
@@ -40,15 +35,22 @@ public class MachineBlockTileEntity extends TileEntity implements ITickableTileE
     // Minar area de 3x3x3
     @Override
     public void tick() {
+        if (termineDeRomper)
+            return;
 
         if (primerPasada)
             fijarValoresIniciales();
 
         ticksPassed++;
 
-        if (ticksPassed == 30){
+        if (ticksPassed == 30) {
 
             ticksPassed = 0;
+
+            if (posicionesARomper.size() == 0) {
+                termineDeRomper = true;
+                return;
+            }
 
             BlockPos bloqueARomper = posicionesARomper.remove(0);
 
@@ -56,28 +58,31 @@ public class MachineBlockTileEntity extends TileEntity implements ITickableTileE
             assert this.world != null;
 
             this.world.setBlockState(bloqueARomper, Blocks.AIR.getDefaultState());
+
+            assert world != null;
+            System.out.println(world.getGameTime());
         }
     }
 
-    void fijarValoresIniciales(){
+    void fijarValoresIniciales() {
         primerPasada = false;
         BlockPos posicionBloque = this.getPos();
         BlockPos nextBlock = new BlockPos(posicionBloque.getX(), posicionBloque.getY(), posicionBloque.getZ() + 1);
         BlockPos posInicial = new BlockPos(posicionBloque.getX(), posicionBloque.getY(), posicionBloque.getZ() + 1);
 
         // Recorro el espacio fijado en tres dimensiones
-        for (int y = 0; y< tamanioBloque; y++){
-            for (int z = 0; z< tamanioBloque; z++){
-                for (int x = 0; x< tamanioBloque; x++){
+        for (int y = 0; y < tamanioBloque; y++) {
+            for (int z = 0; z < tamanioBloque; z++) {
+                for (int x = 0; x < tamanioBloque; x++) {
 
                     // Agrego el bloque que luego será roto
                     posicionesARomper.add(nextBlock);
 
-                    nextBlock = new BlockPos(nextBlock.getX() + 1,nextBlock.getY(),nextBlock.getZ());
+                    nextBlock = new BlockPos(nextBlock.getX() + 1, nextBlock.getY(), nextBlock.getZ());
                 }
-                nextBlock = new BlockPos(posInicial.getX(),nextBlock.getY(),nextBlock.getZ() + 1);
+                nextBlock = new BlockPos(posInicial.getX(), nextBlock.getY(), nextBlock.getZ() + 1);
             }
-            nextBlock = new BlockPos(nextBlock.getX(),nextBlock.getY() + 1,posInicial.getZ());
+            nextBlock = new BlockPos(nextBlock.getX(), nextBlock.getY() + 1, posInicial.getZ());
         }
     }
 

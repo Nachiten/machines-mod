@@ -1,6 +1,7 @@
 package nachiten.machines.mod;
 
 import nachiten.machines.mod.core.init.BlockInit;
+import nachiten.machines.mod.core.init.ContainerTypesInit;
 import nachiten.machines.mod.core.init.ItemInit;
 
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
@@ -32,6 +33,7 @@ public class MachinesMod
         BlockInit.BLOCKS.register(bus);
         TileEntityTypesInit.TILE_ENTITY_TYPE.register(bus);
         ItemInit.ITEMS.register(bus);
+        ContainerTypesInit.CONTAINER_TYPES.register(bus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

@@ -2,6 +2,7 @@ package nachiten.machines.mod.core.init;
 
 import nachiten.machines.mod.MachinesMod;
 
+import nachiten.machines.mod.common.block.DisplayCaseBlock;
 import nachiten.machines.mod.common.block.MachineBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -25,4 +26,5 @@ public class BlockInit {
                     .sound(SoundType.METAL)));
 
     public static final RegistryObject<Block> MACHINE_BLOCK = BLOCKS.register("machine_block", MachineBlock::new);
+    public static final RegistryObject<Block> DISPLAY_CASE = BLOCKS.register("display_case", DisplayCaseBlock::new);
 }
