@@ -26,10 +26,26 @@ public class DisplayCaseContainer extends Container {
         this.te = te;
         this.canInteractWithCallable = IWorldPosCallable.of(Objects.requireNonNull(te.getWorld()), te.getPos());
 
-        // Tile Entity
-        this.addSlot(new Slot((IInventory) te, 0, 80,35));
-        // Tile Entity
-        //this.addSlot(new Slot((IInventory) te, 1, 80,35));
+        // Primera fila
+        this.addSlot(new Slot((IInventory) te, 0, 8,17));
+        this.addSlot(new Slot((IInventory) te, 1, 26,17));
+        this.addSlot(new Slot((IInventory) te, 2, 44,17));
+        this.addSlot(new Slot((IInventory) te, 3, 62,17));
+
+        // Segunda fila
+        this.addSlot(new Slot((IInventory) te, 4, 8,35));
+        this.addSlot(new Slot((IInventory) te, 5, 26,35));
+        this.addSlot(new Slot((IInventory) te, 6, 44,35));
+        this.addSlot(new Slot((IInventory) te, 7, 62,35));
+
+        // Tercera fila
+        this.addSlot(new Slot((IInventory) te, 8, 8,53));
+        this.addSlot(new Slot((IInventory) te, 9, 26,53));
+        this.addSlot(new Slot((IInventory) te, 10, 44,53));
+        this.addSlot(new Slot((IInventory) te, 11, 62,53));
+
+        // Fuel
+        this.addSlot(new Slot((IInventory) te, 12, 116,35));
 
         // Main Player Inventory
         for (int row = 0; row < 3; row++){

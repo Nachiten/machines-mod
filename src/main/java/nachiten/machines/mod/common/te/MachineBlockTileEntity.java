@@ -35,7 +35,8 @@ public class MachineBlockTileEntity extends TileEntity implements ITickableTileE
     // Minar area de 3x3x3
     @Override
     public void tick() {
-        if (termineDeRomper)
+        assert this.world != null;
+        if (this.world.isRemote || termineDeRomper)
             return;
 
         if (primerPasada)
