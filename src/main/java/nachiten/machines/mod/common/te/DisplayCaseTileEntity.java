@@ -22,6 +22,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
     public DisplayCaseTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
@@ -35,13 +38,13 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
     int ticksPassed = 0;
     int secondsDelay = 3;
 
-    BlockPos posicionARomper;
-
     boolean primeraPasada = true;
 
     int fuelLeft = 0;
     int maxFuel = 5;
 
+    int tamanioBloque = 3;
+    List<BlockPos> posicionesARomper = new ArrayList<>();
 
     public final IIntArray data = new IIntArray() {
 
@@ -125,16 +128,21 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         }
     }
 
+    boolean termineDeRomper = false;
 
     @Override
     public void tick() {
+        if (primeraPasada) {
+            fijarValoresIniciales();
+        }
+
         assert this.world != null;
-        if (this.world.isRemote)
+        if (this.world.isRemote || termineDeRomper)
             return;
 
-        if (primeraPasada) {
-            primeraPasada = false;
-            posicionARomper = this.getPos().down();
+        if (posicionesARomper.size() == 0) {
+            termineDeRomper = true;
+            return;
         }
 
         ticksPassed++;
@@ -144,6 +152,8 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
 
             // Obtengo el combustible insertado
             ItemStack itemCombustible = items.get(indexSlotCombustible);
+
+            BlockPos posicionARomper = posicionesARomper.get(0);
 
             // Obtengo el bloque que voy a romper
             Item bloqueARomper = this.world.getBlockState(posicionARomper).getBlock().asItem();
@@ -173,12 +183,13 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
                 fuelLeft--;
                 System.out.println("Combustible restante interno: " + fuelLeft);
 
-                if (bloqueARomper.equals(Items.AIR))
+                if (esBloqueInvalido(bloqueARomper))
                     return;
 
-                if (agregarItemEnContenedor(bloqueARomper)){
+                if (agregarItemEnContenedor(bloqueARomper)) {
                     assert this.world != null;
                     this.world.setBlockState(posicionARomper, Blocks.AIR.getDefaultState());
+                    posicionesARomper.remove(0);
                     System.out.println("Rompi el bloque abajo mio");
                 }
             }
@@ -188,23 +199,49 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
             throw new IllegalStateException("No debe poder haber valor de combustible negativo.");
     }
 
+    void fijarValoresIniciales() {
+        primeraPasada = false;
+        BlockPos posicionBloque = this.getPos();
+        BlockPos nextBlock = new BlockPos(posicionBloque.getX() + 1, posicionBloque.getY() - 1, posicionBloque.getZ() + 1);
+        BlockPos posInicial = new BlockPos(posicionBloque.getX() + 1, posicionBloque.getY() - 1, posicionBloque.getZ() + 1);
+
+        // Recorro el espacio fijado en tres dimensiones
+        for (int y = tamanioBloque; y > 0; y--) {
+            for (int z = 0; z < tamanioBloque; z++) {
+                for (int x = 0; x < tamanioBloque; x++) {
+
+                    // Agrego el bloque que luego será roto
+                    posicionesARomper.add(nextBlock);
+
+                    nextBlock = new BlockPos(nextBlock.getX() + 1, nextBlock.getY(), nextBlock.getZ());
+                }
+                nextBlock = new BlockPos(posInicial.getX(), nextBlock.getY(), nextBlock.getZ() + 1);
+            }
+            nextBlock = new BlockPos(nextBlock.getX(), nextBlock.getY() - 1, posInicial.getZ());
+        }
+    }
+
+    // Checkea si se puede romper el bloque
+    boolean esBloqueInvalido(Item unBloque) {
+        return unBloque.equals(Items.AIR) || unBloque.equals(Items.BEDROCK) || unBloque.equals(Items.OBSIDIAN);
+    }
+
     // Agrega el item recien minado al contenedor
-    boolean agregarItemEnContenedor(Item itemParaAgregar)
-    {
+    boolean agregarItemEnContenedor(Item itemParaAgregar) {
         int index = 0;
 
-        for (ItemStack unSlot : items){
+        for (ItemStack unSlot : items) {
             if (index == indexSlotCombustible)
                 continue;
 
             // Si el slot esta vacio, lo coloco
-            if (unSlot.equals(ItemStack.EMPTY) || unSlot.getCount() == 0){
-                items.set(index, new ItemStack(itemParaAgregar,1));
+            if (unSlot.equals(ItemStack.EMPTY) || unSlot.getCount() == 0) {
+                items.set(index, new ItemStack(itemParaAgregar, 1));
                 return true;
             }
 
             // Si el slot tiene un stack no entero del mismo item, lo agrego ahi
-            if (unSlot.getItem().equals(itemParaAgregar) && unSlot.getCount() < 64){
+            if (unSlot.getItem().equals(itemParaAgregar) && unSlot.getCount() < 64) {
                 unSlot.setCount(unSlot.getCount() + 1);
                 return true;
             }

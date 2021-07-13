@@ -6,13 +6,11 @@ import nachiten.machines.mod.MachinesMod;
 import nachiten.machines.mod.common.container.DisplayCaseContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
@@ -38,7 +36,8 @@ public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
         this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float) this.playerInventoryTitleX, (float) this.playerInventoryTitleY, 4210752);
-        this.font.drawString(matrixStack, this.title.getString(), 8.0f, 8.0f, 0x404040);
+        // Nombre del bloque
+        this.font.drawString(matrixStack, this.title.getString(), 8.0f, 7.0f, 0x404040);
     }
 
 
