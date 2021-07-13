@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 @Mod("machinesmod")
 @Mod.EventBusSubscriber(modid = MachinesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MachinesMod

@@ -19,6 +19,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nonnull;
+
 public class DisplayCaseBlock extends Block {
     public DisplayCaseBlock() {
         super(AbstractBlock.Properties.
@@ -35,12 +37,13 @@ public class DisplayCaseBlock extends Block {
         return TileEntityTypesInit.DISPLAY_CASE_TILE_ENTITY_TYPE.get().create();
     }
 
+    @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
 
-        if (!worldIn.isRemote()){
+        if (!worldIn.isRemote()) {
             TileEntity te = worldIn.getTileEntity(pos);
-            if (te instanceof DisplayCaseTileEntity){
+            if (te instanceof DisplayCaseTileEntity) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (DisplayCaseTileEntity) te, pos);
             }
         }

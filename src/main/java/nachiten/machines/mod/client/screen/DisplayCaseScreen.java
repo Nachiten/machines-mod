@@ -11,6 +11,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 
 @OnlyIn(Dist.CLIENT)
 public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
@@ -27,14 +29,14 @@ public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int x, int y) {
         this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float) this.playerInventoryTitleX, (float) this.playerInventoryTitleY, 4210752);
         // Nombre del bloque
         this.font.drawString(matrixStack, this.title.getString(), 8.0f, 7.0f, 0x404040);
@@ -42,7 +44,7 @@ public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
 
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
         assert this.minecraft != null;
         this.minecraft.textureManager.bindTexture(DISPLAY_CASE_GUI);

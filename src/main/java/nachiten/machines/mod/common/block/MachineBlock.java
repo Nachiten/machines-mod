@@ -10,8 +10,6 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
-import javax.annotation.Nullable;
-
 public class MachineBlock extends Block {
 
     public MachineBlock() {

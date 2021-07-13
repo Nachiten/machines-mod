@@ -18,6 +18,7 @@ public class BlockInit {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MachinesMod.MOD_ID);
 
+    @SuppressWarnings("unused")
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block",
             () -> new Block(AbstractBlock.Properties.create(Material.WOOL, MaterialColor.GRAY)
                     .hardnessAndResistance(5f, 6f)

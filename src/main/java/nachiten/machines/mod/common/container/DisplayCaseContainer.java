@@ -16,8 +16,10 @@ import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class DisplayCaseContainer extends Container {
 
     public final DisplayCaseTileEntity te;
@@ -75,12 +77,13 @@ public class DisplayCaseContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
         return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.DISPLAY_CASE.get());
     }
 
+    @Nonnull
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
         ItemStack stack = ItemStack.EMPTY;
 
         Slot slot = this.inventorySlots.get(index);

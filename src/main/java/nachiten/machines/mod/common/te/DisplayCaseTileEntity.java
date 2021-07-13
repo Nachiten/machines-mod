@@ -1,9 +1,9 @@
 package nachiten.machines.mod.common.te;
 
+
 import nachiten.machines.mod.MachinesMod;
 import nachiten.machines.mod.common.container.DisplayCaseContainer;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,21 +31,21 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         super(typeIn);
     }
 
-    public static int slots = 13;
-    int indexSlotCombustible = 12;
+    public static final int slots = 13;
+    final int indexSlotCombustible = 12;
 
     protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 
     int ticksPassed = 0;
-    int secondsDelay = 3;
+    final int secondsDelay = 3;
 
     boolean primeraPasada = true;
 
     int fuelLeft = 0;
-    int maxFuel = 5;
+    final int maxFuel = 5;
 
-    int tamanioBloque = 3;
-    List<BlockPos> posicionesARomper = new ArrayList<>();
+    final int tamanioBloque = 3;
+    final List<BlockPos> posicionesARomper = new ArrayList<>();
 
     public final IIntArray data = new IIntArray() {
 
@@ -62,13 +63,7 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
 
         @Override
         public void set(int index, int value) {
-            switch (index) {
-                case 0:
-                case 1:
-                    throw new IllegalStateException("This value can not be changed");
-                default:
-                    throw new IndexOutOfBoundsException();
-            }
+            throw new IllegalStateException("This value can not be changed");
         }
 
         @Override
@@ -77,23 +72,26 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         }
     };
 
+    @Nonnull
     @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent("container." + MachinesMod.MOD_ID + ".display_case");
     }
 
+    @Nonnull
     @Override
-    protected Container createMenu(int id, PlayerInventory player) {
+    protected Container createMenu(int id, @Nonnull PlayerInventory player) {
         return new DisplayCaseContainer(id, player, this, this.data);
     }
 
+    @Nonnull
     @Override
     protected NonNullList<ItemStack> getItems() {
         return this.items;
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> itemsIn) {
+    protected void setItems(@Nonnull NonNullList<ItemStack> itemsIn) {
         this.items = itemsIn;
     }
 
@@ -106,8 +104,9 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         return slots;
     }
 
+    @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
 
         if (!this.checkLootAndWrite(compound)) {
@@ -118,7 +117,7 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.read(state, nbt);
 
         this.items = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
