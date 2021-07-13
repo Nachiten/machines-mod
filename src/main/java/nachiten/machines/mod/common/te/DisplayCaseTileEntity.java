@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -27,9 +28,51 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
     }
 
     public static int slots = 13;
+    int indexSlotCombustible = 12;
+
     protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 
-    int indexSlotCombustible = 12;
+    int ticksPassed = 0;
+    int secondsDelay = 3;
+
+    BlockPos posicionARomper;
+
+    boolean primeraPasada = true;
+
+    int fuelLeft = 0;
+    int maxFuel = 5;
+
+
+    public final IIntArray data = new IIntArray() {
+
+        @Override
+        public int get(int index) {
+            switch (index) {
+                case 0:
+                    return fuelLeft;
+                case 1:
+                    return maxFuel;
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0:
+                case 1:
+                    throw new IllegalStateException("This value can not be changed");
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public int size() {
+            return 2;
+        }
+    };
 
     @Override
     protected ITextComponent getDefaultName() {
@@ -38,7 +81,7 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new DisplayCaseContainer(id, player, this);
+        return new DisplayCaseContainer(id, player, this, this.data);
     }
 
     @Override
@@ -82,14 +125,6 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         }
     }
 
-    int ticksPassed = 0;
-    int secondsDelay = 3;
-
-    BlockPos posicionARomper;
-
-    boolean primeraPasada = true;
-
-    int fuelLeft = 0;
 
     @Override
     public void tick() {
@@ -107,44 +142,54 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
         if (ticksPassed == secondsDelay * 20) {
             ticksPassed = 0;
 
+            // Obtengo el combustible insertado
             ItemStack itemCombustible = items.get(indexSlotCombustible);
+
+            // Obtengo el bloque que voy a romper
+            Item bloqueARomper = this.world.getBlockState(posicionARomper).getBlock().asItem();
 
             // Si no tengo mas combustible
             if (fuelLeft == 0) {
-
-                if (itemCombustible.getCount() == 0)
+                // Si no hay combustible puesto, o no hay nada que romper cancelo
+                if (itemCombustible.getCount() == 0 || bloqueARomper.equals(Items.AIR))
                     return;
 
                 // Busco utilizar mas combustible
                 if (esCombustible(itemCombustible)) {
+                    System.out.println("Consumi uno de combustible");
+
                     // Resto uno al combustible que me pusieron
                     itemCombustible.setCount(itemCombustible.getCount() - 1);
-                    System.out.println("Consumi uno de combustible");
+
                     // Sumo al combustible restante por el consumido
-                    fuelLeft += 5;
+                    fuelLeft += maxFuel;
                 }
-                // Si queda combustile
-            } else {
-                assert this.world != null;
-                // Rompo un bloque
-                Item bloqueRecolectado = this.world.getBlockState(posicionARomper).getBlock().asItem();
+            }
 
-                if (bloqueRecolectado.equals(Items.AIR))
-                    return;
+            // Si queda combustile
+            if (fuelLeft > 0) {
 
-                agregarItemEnContenedor(bloqueRecolectado);
-
-                this.world.setBlockState(posicionARomper, Blocks.AIR.getDefaultState());
-                System.out.println("Rompi el bloque abajo mio");
                 // Resto uno al combustible que queda
                 fuelLeft--;
+                System.out.println("Combustible restante interno: " + fuelLeft);
+
+                if (bloqueARomper.equals(Items.AIR))
+                    return;
+
+                if (agregarItemEnContenedor(bloqueARomper)){
+                    assert this.world != null;
+                    this.world.setBlockState(posicionARomper, Blocks.AIR.getDefaultState());
+                    System.out.println("Rompi el bloque abajo mio");
+                }
             }
-            System.out.println("Combustible restante interno: " + fuelLeft);
         }
+
+        if (fuelLeft < 0)
+            throw new IllegalStateException("No debe poder haber valor de combustible negativo.");
     }
 
     // Agrega el item recien minado al contenedor
-    void agregarItemEnContenedor(Item itemParaAgregar)
+    boolean agregarItemEnContenedor(Item itemParaAgregar)
     {
         int index = 0;
 
@@ -153,23 +198,25 @@ public class DisplayCaseTileEntity extends LockableLootTileEntity implements ITi
                 continue;
 
             // Si el slot esta vacio, lo coloco
-            if (unSlot.equals(ItemStack.EMPTY)){
+            if (unSlot.equals(ItemStack.EMPTY) || unSlot.getCount() == 0){
                 items.set(index, new ItemStack(itemParaAgregar,1));
-                return;
+                return true;
             }
 
             // Si el slot tiene un stack no entero del mismo item, lo agrego ahi
             if (unSlot.getItem().equals(itemParaAgregar) && unSlot.getCount() < 64){
                 unSlot.setCount(unSlot.getCount() + 1);
-                return;
+                return true;
             }
 
             index++;
         }
         System.out.println("No hay mas espacios disponibles para el item.");
+        return false;
     }
 
     boolean esCombustible(ItemStack items) {
         return items.getItem().equals(Items.COAL);
     }
+
 }

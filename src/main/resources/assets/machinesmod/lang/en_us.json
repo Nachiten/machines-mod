@@ -1,5 +1,6 @@
 {
   "item.machinesmod.example_item": "Example Item",
   "block.machinesmod.example_block": "Example Block",
-  "block.machinesmod.machine_block": "Machine Block"
+  "block.machinesmod.machine_block": "Machine Block",
+  "container.machinesmod.display_case": "Cube Mining Block"
 }
