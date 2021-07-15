@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "" : {
+      "model": "machinesmod:block/cube_drill"
+    }
+  }
+}

@@ -2,8 +2,8 @@ package nachiten.machines.mod.core.init;
 
 import nachiten.machines.mod.MachinesMod;
 
-import nachiten.machines.mod.common.block.DisplayCaseBlock;
-import nachiten.machines.mod.common.block.MachineBlock;
+import nachiten.machines.mod.common.block.CubeDrillBlock;
+import nachiten.machines.mod.common.block.VerticalDrill;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -20,8 +20,8 @@ public class BlockInit {
 
     /*
      * Blocks:
-     * - Vertical Drill : VERTICAL_DRILL
-     * - Cube Drill : CUBE_DRILL
+     * - Vertical Drill : VERTICAL_DRILL | MachineBlock
+     * - Cube Drill : CUBE_DRILL | DisplayCase
      */
 
     @SuppressWarnings("unused")
@@ -32,6 +32,6 @@ public class BlockInit {
                     .harvestLevel(2)
                     .sound(SoundType.METAL)));
  
-    public static final RegistryObject<Block> MACHINE_BLOCK = BLOCKS.register("machine_block", MachineBlock::new);
-    public static final RegistryObject<Block> DISPLAY_CASE = BLOCKS.register("display_case", DisplayCaseBlock::new);
+    public static final RegistryObject<Block> VERTICAL_DRILL = BLOCKS.register("vertical_drill", VerticalDrill::new);
+    public static final RegistryObject<Block> CUBE_DRILL = BLOCKS.register("cube_drill", CubeDrillBlock::new);
 }

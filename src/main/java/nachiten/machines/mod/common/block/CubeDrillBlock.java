@@ -1,6 +1,6 @@
 package nachiten.machines.mod.common.block;
 
-import nachiten.machines.mod.common.te.DisplayCaseTileEntity;
+import nachiten.machines.mod.common.te.CubeDrillTileEntity;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -21,9 +21,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
-public class DisplayCaseBlock extends Block {
+public class CubeDrillBlock extends Block {
 
-    public DisplayCaseBlock() {
+    public CubeDrillBlock() {
         super(AbstractBlock.Properties.
                 create(Material.ROCK, MaterialColor.GRAY).hardnessAndResistance(15f).sound(SoundType.METAL));
     }
@@ -35,7 +35,7 @@ public class DisplayCaseBlock extends Block {
 
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return TileEntityTypesInit.DISPLAY_CASE_TILE_ENTITY_TYPE.get().create();
+        return TileEntityTypesInit.CUBE_DRILL_TILE_ENTITY_TYPE.get().create();
     }
 
     @Nonnull
@@ -44,8 +44,8 @@ public class DisplayCaseBlock extends Block {
 
         if (!worldIn.isRemote()) {
             TileEntity te = worldIn.getTileEntity(pos);
-            if (te instanceof DisplayCaseTileEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, (DisplayCaseTileEntity) te, pos);
+            if (te instanceof CubeDrillTileEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, (CubeDrillTileEntity) te, pos);
             }
         }
         return ActionResultType.SUCCESS;

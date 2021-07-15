@@ -1,6 +1,6 @@
 package nachiten.machines.mod.common.te;
 
-import nachiten.machines.mod.common.container.DisplayCaseContainer;
+import nachiten.machines.mod.common.container.CubeDrillContainer;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -9,25 +9,26 @@ import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class DisplayCaseTileEntity extends ATileEntity {
+public class CubeDrillTileEntity extends ATileEntity {
 
-    public DisplayCaseTileEntity(TileEntityType<?> typeIn) {
+    public CubeDrillTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
     }
 
-    public DisplayCaseTileEntity() {
-        this(TileEntityTypesInit.DISPLAY_CASE_TILE_ENTITY_TYPE.get());
-        this.blockName = ".display_case";
+    public CubeDrillTileEntity() {
+        this(TileEntityTypesInit.CUBE_DRILL_TILE_ENTITY_TYPE.get());
+        this.blockName = ".cube_drill";
         this.slots = 13;
         this.maxFuel = 5;
     }
 
     final int tamanioBloque = 3;
 
+
     @Nonnull
     @Override
     protected Container createMenu(int id, @Nonnull PlayerInventory player) {
-        return new DisplayCaseContainer(id, player, this, this.data);
+        return new CubeDrillContainer(id, player, this, this.data);
     }
 
     @Override

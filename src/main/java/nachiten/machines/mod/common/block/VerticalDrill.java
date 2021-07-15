@@ -1,6 +1,6 @@
 package nachiten.machines.mod.common.block;
 
-import nachiten.machines.mod.common.te.MachineBlockTileEntity;
+import nachiten.machines.mod.common.te.VerticalDrillTileEntity;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -21,9 +21,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
-public class MachineBlock extends Block {
+public class VerticalDrill extends Block {
 
-    public MachineBlock() {
+    public VerticalDrill() {
         super(AbstractBlock.Properties.
                 create(Material.ROCK, MaterialColor.GRAY).hardnessAndResistance(15f).sound(SoundType.METAL));
     }
@@ -35,7 +35,7 @@ public class MachineBlock extends Block {
 
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return TileEntityTypesInit.MACHINE_TILE_ENTITY_TYPE.get().create();
+        return TileEntityTypesInit.VERTICAL_DRILL_TILE_ENTITY_TYPE.get().create();
     }
 
     @Nonnull
@@ -44,8 +44,8 @@ public class MachineBlock extends Block {
 
         if (!worldIn.isRemote()) {
             TileEntity te = worldIn.getTileEntity(pos);
-            if (te instanceof MachineBlockTileEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, (MachineBlockTileEntity) te, pos);
+            if (te instanceof VerticalDrillTileEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, (VerticalDrillTileEntity) te, pos);
             }
         }
         return ActionResultType.SUCCESS;

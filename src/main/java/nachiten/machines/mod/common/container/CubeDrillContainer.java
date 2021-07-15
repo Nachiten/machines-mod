@@ -1,6 +1,6 @@
 package nachiten.machines.mod.common.container;
 
-import nachiten.machines.mod.common.te.MachineBlockTileEntity;
+import nachiten.machines.mod.common.te.CubeDrillTileEntity;
 import nachiten.machines.mod.core.init.BlockInit;
 import nachiten.machines.mod.core.init.ContainerTypesInit;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,15 +20,14 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 
-public class MachineBlockContainer extends Container {
+public class CubeDrillContainer extends Container {
 
-    public final MachineBlockTileEntity te;
+    public final CubeDrillTileEntity te;
     private final IWorldPosCallable canInteractWithCallable;
     private final IIntArray data;
 
-
-    public MachineBlockContainer(final int windowId, final PlayerInventory playerInv, final MachineBlockTileEntity te, IIntArray data) {
-        super(ContainerTypesInit.MACHINE_BLOCK_CONTAINER_TYPE.get(), windowId);
+    public CubeDrillContainer(final int windowId, final PlayerInventory playerInv, final CubeDrillTileEntity te, IIntArray data) {
+        super(ContainerTypesInit.CUBE_DRILL_CONTAINER_TYPE.get(), windowId);
         this.te = te;
         this.canInteractWithCallable = IWorldPosCallable.of(Objects.requireNonNull(te.getWorld()), te.getPos());
         this.data = data;
@@ -61,24 +60,24 @@ public class MachineBlockContainer extends Container {
         trackIntArray(this.data);
     }
 
-    public MachineBlockContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
+    public CubeDrillContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
         this(windowId, playerInv, getTileEntity(playerInv, data), new IntArray(2));
     }
 
-    private static MachineBlockTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
+    private static CubeDrillTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
         Objects.requireNonNull(playerInv, "Player Inventory cannot be null");
         Objects.requireNonNull(playerInv, "Packet Buffer  cannot be null");
 
         final TileEntity te = playerInv.player.world.getTileEntity(data.readBlockPos());
-        if (te instanceof MachineBlockTileEntity) {
-            return (MachineBlockTileEntity) te;
+        if (te instanceof CubeDrillTileEntity) {
+            return (CubeDrillTileEntity) te;
         }
         throw new IllegalStateException("Tile Entity Is Not Correct");
     }
 
     @Override
     public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.MACHINE_BLOCK.get());
+        return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.CUBE_DRILL.get());
     }
 
     @Nonnull

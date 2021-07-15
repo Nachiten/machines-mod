@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "machinesmod:blocks/cube_drill"
+  }
+}

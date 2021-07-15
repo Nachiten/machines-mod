@@ -3,8 +3,7 @@ package nachiten.machines.mod.client.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import nachiten.machines.mod.MachinesMod;
-import nachiten.machines.mod.common.container.DisplayCaseContainer;
-import nachiten.machines.mod.common.container.MachineBlockContainer;
+import nachiten.machines.mod.common.container.CubeDrillContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -15,11 +14,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class MachineBlockScreen extends ContainerScreen<MachineBlockContainer> {
+public class CubeDrillScreen extends ContainerScreen<CubeDrillContainer> {
 
-    private static final ResourceLocation MACHINE_BLOCK_GUI = new ResourceLocation(MachinesMod.MOD_ID, "textures/gui/display_case.png");
+    private static final ResourceLocation CUBE_DRILL_GUI = new ResourceLocation(MachinesMod.MOD_ID, "textures/gui/display_case.png");
 
-    public MachineBlockScreen(MachineBlockContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    public CubeDrillScreen(CubeDrillContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
 
         this.guiLeft = 0;
@@ -46,7 +45,7 @@ public class MachineBlockScreen extends ContainerScreen<MachineBlockContainer> {
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
         assert this.minecraft != null;
-        this.minecraft.textureManager.bindTexture(MACHINE_BLOCK_GUI);
+        this.minecraft.textureManager.bindTexture(CUBE_DRILL_GUI);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
         this.blit(matrixStack, x, y, 0, 0, this.xSize, this.ySize);

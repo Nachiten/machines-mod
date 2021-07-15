@@ -3,7 +3,7 @@ package nachiten.machines.mod.client.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import nachiten.machines.mod.MachinesMod;
-import nachiten.machines.mod.common.container.DisplayCaseContainer;
+import nachiten.machines.mod.common.container.VerticalDrillContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -14,11 +14,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
+public class VerticalDrillBlockScreen extends ContainerScreen<VerticalDrillContainer> {
 
-    private static final ResourceLocation DISPLAY_CASE_GUI = new ResourceLocation(MachinesMod.MOD_ID, "textures/gui/display_case.png");
+    private static final ResourceLocation VERTICAL_DRILL_GUI = new ResourceLocation(MachinesMod.MOD_ID, "textures/gui/display_case.png");
 
-    public DisplayCaseScreen(DisplayCaseContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    public VerticalDrillBlockScreen(VerticalDrillContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
 
         this.guiLeft = 0;
@@ -45,11 +45,11 @@ public class DisplayCaseScreen extends ContainerScreen<DisplayCaseContainer> {
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
         assert this.minecraft != null;
-        this.minecraft.textureManager.bindTexture(DISPLAY_CASE_GUI);
+        this.minecraft.textureManager.bindTexture(VERTICAL_DRILL_GUI);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
         this.blit(matrixStack, x, y, 0, 0, this.xSize, this.ySize);
 
-        this.blit(matrixStack, x + 115, y + 52, 176, 0, 18, this.container.getProccess()); // This 14 is the hardcored value that should change
+        this.blit(matrixStack, x + 115, y + 52, 176, 0, 18, this.container.getProccess());
     }
 }

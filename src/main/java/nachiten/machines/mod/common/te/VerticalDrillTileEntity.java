@@ -1,6 +1,6 @@
 package nachiten.machines.mod.common.te;
 
-import nachiten.machines.mod.common.container.MachineBlockContainer;
+import nachiten.machines.mod.common.container.VerticalDrillContainer;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -9,15 +9,15 @@ import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class MachineBlockTileEntity extends ATileEntity {
+public class VerticalDrillTileEntity extends ATileEntity {
 
-    public MachineBlockTileEntity(TileEntityType<?> tileEntityType) {
+    public VerticalDrillTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
     }
 
-    public MachineBlockTileEntity() {
-        this(TileEntityTypesInit.MACHINE_TILE_ENTITY_TYPE.get());
-        this.blockName = ".machine_block";
+    public VerticalDrillTileEntity() {
+        this(TileEntityTypesInit.VERTICAL_DRILL_TILE_ENTITY_TYPE.get());
+        this.blockName = ".vertical_drill";
         this.slots = 13;
         this.maxFuel = 5;
     }
@@ -25,7 +25,7 @@ public class MachineBlockTileEntity extends ATileEntity {
     @Nonnull
     @Override
     protected Container createMenu(int id, @Nonnull PlayerInventory player) {
-        return new MachineBlockContainer(id, player, this, this.data);
+        return new VerticalDrillContainer(id, player, this, this.data);
     }
 
     @Override
