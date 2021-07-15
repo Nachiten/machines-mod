@@ -1,6 +1,7 @@
 {
   "item.machinesmod.example_item": "Example Item",
-  "block.machinesmod.example_block": "Example Block",
-  "block.machinesmod.machine_block": "Machine Block",
-  "container.machinesmod.display_case": "Cube Mining Block"
+  "block.machinesmod.cube_drill": "Cube Drill",
+  "block.machinesmod.vertical_drill": "Vertical Drill",
+  "container.machinesmod.cube_drill": "Cube Mining Block",
+  "container.machinesmod.vertical_drill": "Vertical Mining Block"
 }

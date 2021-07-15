@@ -21,6 +21,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("deprecation")
 public class CubeDrillBlock extends Block {
 
     public CubeDrillBlock() {

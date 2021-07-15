@@ -38,9 +38,10 @@ public class VerticalDrillBlockScreen extends ContainerScreen<VerticalDrillConta
     protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int x, int y) {
         this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float) this.playerInventoryTitleX, (float) this.playerInventoryTitleY, 4210752);
         // Nombre del bloque
-        this.font.drawString(matrixStack, this.title.getString(), 8.0f, 7.0f, 0x404040);
+        this.font.drawString(matrixStack, this.title.getString(), 8.0f, 6.0f, 0x404040);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
