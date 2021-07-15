@@ -3,10 +3,10 @@ loaderVersion="[36,)"
 license="All rights reserved"
 [[mods]]
 modId="machinesmod"
-version="${file.jarVersion}"
+version="1.0.0"
 displayName="Machines Mod"
 logoFile="machinesmodlogo.png"
-credits=""
+credits="n/a"
 authors="Nachiten"
 description='''
 Adds machines to minecraft.

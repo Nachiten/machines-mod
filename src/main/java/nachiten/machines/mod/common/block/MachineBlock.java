@@ -1,5 +1,6 @@
 package nachiten.machines.mod.common.block;
 
+import nachiten.machines.mod.common.te.MachineBlockTileEntity;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -7,8 +8,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
+
+import javax.annotation.Nonnull;
 
 public class MachineBlock extends Block {
 
@@ -25,5 +36,18 @@ public class MachineBlock extends Block {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return TileEntityTypesInit.MACHINE_TILE_ENTITY_TYPE.get().create();
+    }
+
+    @Nonnull
+    @Override
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
+
+        if (!worldIn.isRemote()) {
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te instanceof MachineBlockTileEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, (MachineBlockTileEntity) te, pos);
+            }
+        }
+        return ActionResultType.SUCCESS;
     }
 }

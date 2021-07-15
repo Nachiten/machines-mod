@@ -1,15 +1,15 @@
 package nachiten.machines.mod.common.te;
 
+import nachiten.machines.mod.common.container.MachineBlockContainer;
 import nachiten.machines.mod.core.init.TileEntityTypesInit;
-
-import net.minecraft.block.Blocks;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 
+import javax.annotation.Nonnull;
 
-public class MachineBlockTileEntity extends TileEntity implements ITickableTileEntity {
+public class MachineBlockTileEntity extends ATileEntity {
 
     public MachineBlockTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
@@ -17,43 +17,24 @@ public class MachineBlockTileEntity extends TileEntity implements ITickableTileE
 
     public MachineBlockTileEntity() {
         this(TileEntityTypesInit.MACHINE_TILE_ENTITY_TYPE.get());
+        this.blockName = ".machine_block";
+        this.slots = 13;
+        this.maxFuel = 5;
     }
 
-    // Tiempo transcurrido
-    int ticksPassed = 0;
-
-    // Flag
-    boolean primerPasada = true;
-    //boolean termineDeRomper = false;
-
-    BlockPos bloqueARomper;
-
-    // --- Minar los bloques abajo tuyo ---
+    @Nonnull
     @Override
-    public void tick() {
+    protected Container createMenu(int id, @Nonnull PlayerInventory player) {
+        return new MachineBlockContainer(id, player, this, this.data);
+    }
 
-        ticksPassed++;
+    @Override
+    void fijarValoresIniciales() {
+        BlockPos blockPos = this.getPos().down();
 
-        // Si paso un segundo y medio
-        if (ticksPassed == 30) {
-
-            ticksPassed = 0;
-
-            if (primerPasada)
-                fijarValoresIniciales();
-
-            assert this.world != null;
-            // Fijo el siguiente bloque a aire
-            this.world.setBlockState(bloqueARomper, Blocks.AIR.getDefaultState());
-
-            // Fijo la variable al siguiente despues del roto
-            bloqueARomper = new BlockPos(bloqueARomper.getX(), bloqueARomper.getY() - 1, bloqueARomper.getZ());
+        // Recorro el espacio fijado en tres dimensiones
+        for (int posY = blockPos.getY(); posY > 0; posY--) {
+            posicionesARomper.add(new BlockPos(blockPos.getX(), posY, blockPos.getZ()));
         }
     }
-
-    void fijarValoresIniciales() {
-        bloqueARomper = this.getPos().down();
-        primerPasada = false;
-    }
-
 }

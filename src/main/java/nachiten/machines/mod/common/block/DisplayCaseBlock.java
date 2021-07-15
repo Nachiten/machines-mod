@@ -22,6 +22,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 
 public class DisplayCaseBlock extends Block {
+
     public DisplayCaseBlock() {
         super(AbstractBlock.Properties.
                 create(Material.ROCK, MaterialColor.GRAY).hardnessAndResistance(15f).sound(SoundType.METAL));
@@ -47,6 +48,6 @@ public class DisplayCaseBlock extends Block {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (DisplayCaseTileEntity) te, pos);
             }
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return ActionResultType.SUCCESS;
     }
 }

@@ -18,6 +18,12 @@ public class BlockInit {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MachinesMod.MOD_ID);
 
+    /*
+     * Blocks:
+     * - Vertical Drill : VERTICAL_DRILL
+     * - Cube Drill : CUBE_DRILL
+     */
+
     @SuppressWarnings("unused")
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block",
             () -> new Block(AbstractBlock.Properties.create(Material.WOOL, MaterialColor.GRAY)
@@ -25,7 +31,7 @@ public class BlockInit {
                     .harvestTool(ToolType.PICKAXE)
                     .harvestLevel(2)
                     .sound(SoundType.METAL)));
-
+ 
     public static final RegistryObject<Block> MACHINE_BLOCK = BLOCKS.register("machine_block", MachineBlock::new);
     public static final RegistryObject<Block> DISPLAY_CASE = BLOCKS.register("display_case", DisplayCaseBlock::new);
 }
