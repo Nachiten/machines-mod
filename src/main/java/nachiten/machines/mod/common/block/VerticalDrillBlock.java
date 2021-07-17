@@ -22,9 +22,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("deprecation")
-public class VerticalDrill extends Block {
+public class VerticalDrillBlock extends Block {
 
-    public VerticalDrill() {
+    public VerticalDrillBlock() {
         super(AbstractBlock.Properties.
                 create(Material.ROCK, MaterialColor.GRAY).hardnessAndResistance(15f).sound(SoundType.METAL));
     }
